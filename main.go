@@ -399,13 +399,13 @@ func getDataDir() string {
 var (
 	// Left panel styles
 	activeTabStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#FFFFFF")).
+			Foreground(lipgloss.Color("#E097F8")).
 			Background(lipgloss.Color("#7D56F4")).
 			Padding(0, 2).
 			Bold(true)
 
 	inactiveTabStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#FFFFFF")).
+				Foreground(lipgloss.Color("#E097F8")).
 				Padding(0, 2)
 
 	selectedStyle = lipgloss.NewStyle().
@@ -1046,7 +1046,7 @@ func (m model) View() string {
 		Height(m.height-2).
 		Padding(0, 1).
 		Border(lipgloss.NormalBorder(), false, false, false, true).
-		BorderForeground(lipgloss.Color("#FFFFFF"))
+		BorderForeground(lipgloss.Color("#DDDDDD"))
 
 	viewportContent := m.viewport.View()
 
@@ -1362,8 +1362,8 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 <head>
 	<meta charset="utf-8">
 	<title>%s - efx-motion</title>
-	<meta http-equiv="refresh" content="5">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="dark-hl">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="light-hl" disabled>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<script>hljs.highlightAll();</script>
 	<style>
@@ -1460,8 +1460,9 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 		}
 		body.light .content { color: #24292f; }
 		pre { background: #161b22; padding: 16px; border-radius: 8px; overflow-x: auto; }
-		body.light pre { background: #f6f8fa; }
-		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; }
+		body.light pre { background: #f6f8fa; border: 1px solid #d0d7de; }
+		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; background: #f6f8fa; padding: 2px 4px; border-radius: 4px; }
+		body.light code { background: #f6f8fa; color: #24292f; }
 		pre code { padding: 0; background: none; }
 		a { color: #58a6ff; text-decoration: none; }
 		a:hover { text-decoration: underline; }
@@ -1496,8 +1497,12 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 		var btn = document.querySelector('.theme-toggle');
 		if (document.body.classList.contains('light')) {
 			btn.textContent = 'Dark';
+			document.getElementById('dark-hl').disabled = true;
+			document.getElementById('light-hl').disabled = false;
 		} else {
 			btn.textContent = 'Light';
+			document.getElementById('dark-hl').disabled = false;
+			document.getElementById('light-hl').disabled = true;
 		}
 		localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
 	}
@@ -1505,6 +1510,8 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 	if (localStorage.getItem('theme') === 'light') {
 		document.body.classList.add('light');
 		document.querySelector('.theme-toggle').textContent = 'Dark';
+		document.getElementById('dark-hl').disabled = true;
+		document.getElementById('light-hl').disabled = false;
 	}
 	function toggleCat(el) { el.parentElement.classList.toggle('active'); }
 	let currentIdx = 0;
