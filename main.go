@@ -419,7 +419,7 @@ var (
 			Foreground(lipgloss.Color("#666666"))
 
 	helpStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#565656")).
+			Foreground(lipgloss.Color("#888888")).
 			MarginTop(1)
 
 	// Right panel (doc preview) styles
@@ -990,6 +990,46 @@ func (m model) View() string {
 		left.WriteString(dimStyle.Render("  No references found\n"))
 	}
 
+	// Bullet pagination for left panel (like col 2)
+	if totalPages > 1 {
+		var pagination strings.Builder
+		pagination.WriteString("  ")
+
+		activeBullet := lipgloss.NewStyle().Foreground(lipgloss.Color("#7D56F4")).Bold(true)
+		inactiveBullet := lipgloss.NewStyle().Foreground(lipgloss.Color("#444444"))
+
+		maxBullets := 15
+		if totalPages <= maxBullets {
+			for p := 0; p < totalPages; p++ {
+				if p == m.currentPage {
+					pagination.WriteString(activeBullet.Render("●"))
+				} else {
+					pagination.WriteString(inactiveBullet.Render("○"))
+				}
+				if p < totalPages-1 {
+					pagination.WriteString(" ")
+				}
+			}
+		} else {
+			// Abbreviated
+			if m.currentPage > 1 {
+				pagination.WriteString(inactiveBullet.Render("○ ... "))
+			}
+			if m.currentPage > 0 {
+				pagination.WriteString(inactiveBullet.Render("○ "))
+			}
+			pagination.WriteString(activeBullet.Render("●"))
+			if m.currentPage < totalPages-1 {
+				pagination.WriteString(inactiveBullet.Render(" ○"))
+			}
+			if m.currentPage < totalPages-2 {
+				pagination.WriteString(inactiveBullet.Render(" ... ○"))
+			}
+		}
+		pagination.WriteString(fmt.Sprintf("  %d/%d", m.currentPage+1, totalPages))
+		left.WriteString("\n" + pagination.String())
+	}
+
 	// Help
 	helpText := "[tab] category  [↑↓/k/space]  [←/→/pgup/pgdn] scroll  [enter] copy  [f] folder  [w/s] web  [/?] search  [q] quit"
 	left.WriteString("\n" + helpStyle.Render(helpText))
@@ -1402,16 +1442,6 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 		th, td { border: 1px solid #30363d; padding: 10px 14px; text-align: left; }
 		th { background: #161b22; }
 		hr { border: none; border-top: 1px solid #30363d; margin: 32px 0; }
-		.status {
-			position: fixed;
-			bottom: 10px;
-			right: 20px;
-			background: #7d56f4;
-			color: white;
-			padding: 8px 16px;
-			border-radius: 20px;
-			font-size: 12px;
-		}
 	</style>
 </head>
 <body>
@@ -1419,7 +1449,6 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 <div class="content">
 %s
 </div>
-<div class="status">%s | %s</div>
 <script>
 	function toggleCat(el) { el.parentElement.classList.toggle('active'); }
 	let currentIdx = 0;
@@ -1440,7 +1469,7 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 	});
 </script>
 </body>
-</html>`, title, sidebar, content, activeCat, activeDoc)
+</html>`, title, sidebar, content)
 
 	return html
 }
@@ -1564,6 +1593,8 @@ func loadDocContentFromDisk(catName, docName string) string {
 		docName + ".md",
 		strings.ReplaceAll(docName, " ", "-") + ".md",
 		strings.ReplaceAll(docName, " ", "") + ".md",
+		strings.ReplaceAll(docName, "-", " ") + ".md",
+		strings.ReplaceAll(docName, "-", "") + ".md",
 	}
 
 	for _, fileName := range possibleNames {
