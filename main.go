@@ -399,13 +399,13 @@ func getDataDir() string {
 var (
 	// Left panel styles
 	activeTabStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#E097F8")).
+			Foreground(lipgloss.Color("#FFFFFF")).
 			Background(lipgloss.Color("#7D56F4")).
 			Padding(0, 2).
 			Bold(true)
 
 	inactiveTabStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#E097F8")).
+				Foreground(lipgloss.Color("#E0B7EE")).
 				Padding(0, 2)
 
 	selectedStyle = lipgloss.NewStyle().
@@ -1046,7 +1046,7 @@ func (m model) View() string {
 		Height(m.height-2).
 		Padding(0, 1).
 		Border(lipgloss.NormalBorder(), false, false, false, true).
-		BorderForeground(lipgloss.Color("#DDDDDD"))
+		BorderForeground(lipgloss.Color("#E0B7EE"))
 
 	viewportContent := m.viewport.View()
 
@@ -1461,7 +1461,7 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 		body.light .content { color: #24292f; }
 		pre { background: #161b22; padding: 16px; border-radius: 8px; overflow-x: auto; }
 		body.light pre { background: #f6f8fa; border: 1px solid #d0d7de; }
-		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; background: #f6f8fa; padding: 2px 4px; border-radius: 4px; }
+		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; background: #30363d; color: #e6edf3; padding: 2px 4px; border-radius: 4px; }
 		body.light code { background: #f6f8fa; color: #24292f; }
 		pre code { padding: 0; background: none; }
 		a { color: #58a6ff; text-decoration: none; }
