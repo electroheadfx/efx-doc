@@ -1,6 +1,6 @@
 # efx-doc
 
-A beautiful terminal documentation viewer for efx-motion built with Go and Bubble Tea.
+A **TUI + Web** documentation viewer that renders markdown in real-time. Built with Go, Bubble Tea and Glamour.
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
 ![Go](https://img.shields.io/badge/Go-1.24+-00ADD8?style=flat&logo=go)
@@ -8,13 +8,34 @@ A beautiful terminal documentation viewer for efx-motion built with Go and Bubbl
 
 ## Features
 
-- 📚 **Two-column layout**: Navigation on the left, markdown preview on the right
-- 🎨 **Beautiful rendering**: Uses glamour for rich markdown rendering with Tokyo Night theme
+- 📺 **Dual Preview**: View documentation in **Terminal (TUI)** or **Browser (Web)**
+- 🎨 **Live Rendering**: Markdown is converted to HTML on-the-fly via local HTTP server
+- 📚 **Two-column layout (TUI)**: Navigation on the left, markdown preview on the right
+- 🌐 **Web Preview**: Opens in browser with syntax highlighting and light/dark theme toggle
 - 🔍 **Full-text search**: Search across all documentation
 - 📱 **Responsive**: Adapts to terminal size
-- 🌐 **Web preview**: Open documentation in browser with `[w]` key
 - 📋 **Clipboard**: Copy documentation with `[Enter]` key
-- ⌨️ **Keyboard navigation**: Full keyboard support
+- ⌨️ **Full keyboard navigation**
+
+## Screenshots
+
+### TUI Preview
+![TUI](public/img/tui.png)
+
+### Web Preview
+![Web](public/img/web.png)
+
+## Quick Start
+
+```bash
+# Build
+make build
+
+# Run - select a workspace to view docs
+./bin/efx-doc
+```
+
+Press `w` to open the web preview in your browser!
 
 ## Installation
 
@@ -60,31 +81,33 @@ make install
 | `↑/↓` or `j/k` | Navigate document list |
 | `Space` | Next document |
 | `Tab` | Switch category |
-| `←/→` or `PgUp/PgDn` | Scroll documentation |
+| `←/→` | Previous/Next page (list) |
+| `PgUp/PgDn` | Scroll documentation |
 | `/` or `?` | Search |
 | `Enter` | Copy to clipboard |
 | `f` | Open folder in Finder |
-| `w` | Open web preview |
+| `w` | 🌐 **Open web preview** |
 | `s` | Stop web server |
 | `q` | Quit |
 
-## Web Preview
+## 🌐 Web Preview (Key: `w`)
 
-Press `w` to open documentation in your browser. The web preview features:
+This is the **main feature** of efx-doc! Press `w` to start a local HTTP server and open documentation in your browser:
 
-- Collapsible category sidebar
-- Syntax highlighting for code blocks
-- Auto-refresh when navigating in TUI
-- Keyboard navigation (`j/k` to navigate, `r` to refresh)
+- **Live conversion**: Markdown → HTML in real-time
+- **Sidebar navigation**: Browse categories and documents
+- **Syntax highlighting**: Code blocks with GitHub Dark/Light themes
+- **Light/Dark mode**: Toggle button in top-right corner
+- **Keyboard navigation**: `j/k` navigate, `Enter` open, `r` refresh
+- **Auto-sync**: Changes in TUI reflect instantly in browser
 
 ## Configuration
 
-The application reads from `data/docs.yaml` for the documentation structure and `data/docs/` folder for markdown files.
+The application uses workspace configuration to load documentation. Workspaces are defined in `~/.config/efx-doc/workspaces.yaml`.
 
 ### Adding Documentation
 
-1. Add entries to `data/docs.yaml`
-2. Create corresponding markdown files in `data/docs/<category>/`
+See [BUILDING.md](BUILDING.md) for detailed instructions on creating documentation for efx-doc.
 
 ## Development
 

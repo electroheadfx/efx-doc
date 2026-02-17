@@ -589,9 +589,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "pgdown":
 			m.viewport.PageDown()
 		case "right":
-			m.viewport.LineDown(5)
+			// Right - next page in col 1
+			totalPages := m.getTotalPages()
+			if m.currentPage < totalPages-1 {
+				m.currentPage++
+				m.cursor = m.currentPage * m.getItemsPerPage()
+			}
 		case "left":
-			m.viewport.LineUp(5)
+			// Left - previous page in col 1
+			if m.currentPage > 0 {
+				m.currentPage--
+				m.cursor = m.currentPage * m.getItemsPerPage()
+			}
 		case "tab":
 			m.activeTab = (m.activeTab + 1) % (len(m.config.Categories) + 1)
 			m.filter = ""
