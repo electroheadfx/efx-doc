@@ -1384,7 +1384,8 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			flex: 1;
 			overflow-y: auto;
 			padding: 40px 60px;
-			max-width: 900px;
+			max-width: calc(100%% - 280px);
+			width: 100%%;
 		}
 		pre { background: #161b22; padding: 16px; border-radius: 8px; overflow-x: auto; }
 		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; }
