@@ -399,13 +399,13 @@ func getDataDir() string {
 var (
 	// Left panel styles
 	activeTabStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#FAFAFA")).
+			Foreground(lipgloss.Color("#FFFFFF")).
 			Background(lipgloss.Color("#7D56F4")).
 			Padding(0, 2).
 			Bold(true)
 
 	inactiveTabStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#888888")).
+				Foreground(lipgloss.Color("#FFFFFF")).
 				Padding(0, 2)
 
 	selectedStyle = lipgloss.NewStyle().
@@ -1046,7 +1046,7 @@ func (m model) View() string {
 		Height(m.height-2).
 		Padding(0, 1).
 		Border(lipgloss.NormalBorder(), false, false, false, true).
-		BorderForeground(lipgloss.Color("#58A6FF"))
+		BorderForeground(lipgloss.Color("#FFFFFF"))
 
 	viewportContent := m.viewport.View()
 
@@ -1376,6 +1376,25 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			height: 100vh;
 			overflow: hidden;
 		}
+		body.light {
+			background: #ffffff;
+			color: #24292f;
+		}
+		.theme-toggle {
+			position: fixed;
+			top: 10px;
+			right: 20px;
+			background: #7d56f4;
+			color: white;
+			border: none;
+			padding: 8px 16px;
+			border-radius: 20px;
+			cursor: pointer;
+			font-size: 12px;
+			z-index: 1000;
+		}
+		.theme-toggle:hover { opacity: 0.9; }
+		body.light .theme-toggle { background: #7d56f4; }
 		.sidebar {
 			width: 280px;
 			background: #161b22;
@@ -1384,6 +1403,10 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			flex-direction: column;
 			overflow: hidden;
 		}
+		body.light .sidebar {
+			background: #f6f8fa;
+			border-right: 1px solid #d0d7de;
+		}
 		.sidebar-header {
 			padding: 16px;
 			font-size: 18px;
@@ -1391,6 +1414,7 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			color: #7d56f4;
 			border-bottom: 1px solid #30363d;
 		}
+		body.light .sidebar-header { border-bottom: 1px solid #d0d7de; }
 		.sidebar-footer {
 			padding: 12px;
 			font-size: 11px;
@@ -1398,7 +1422,9 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			border-top: 1px solid #30363d;
 			text-align: center;
 		}
+		body.light .sidebar-footer { color: #57606a; border-top-color: #d0d7de; }
 		.category { border-bottom: 1px solid #21262d; }
+		body.light .category { border-bottom: 1px solid #d0d7de; }
 		.cat-title {
 			padding: 10px 16px;
 			cursor: pointer;
@@ -1406,9 +1432,12 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			color: #f0f6fc;
 			transition: background 0.2s;
 		}
+		body.light .cat-title { color: #24292f; }
 		.cat-title:hover { background: #21262d; }
+		body.light .cat-title:hover { background: #f3f4f6; }
 		.category.active .cat-title { color: #7d56f4; }
 		.cat-items { display: none; background: #0d1117; }
+		body.light .cat-items { background: #ffffff; }
 		.category.active .cat-items { display: block; }
 		.cat-items a {
 			display: block;
@@ -1418,7 +1447,9 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			font-size: 13px;
 			transition: all 0.2s;
 		}
+		body.light .cat-items a { color: #57606a; }
 		.cat-items a:hover { background: #21262d; color: #c9d1d9; }
+		body.light .cat-items a:hover { background: #f3f4f6; color: #24292f; }
 		.cat-items a.active { background: #7d56f420; color: #7d56f4; border-right: 2px solid #7d56f4; }
 		.content {
 			flex: 1;
@@ -1427,29 +1458,54 @@ func generateFullPageHTML(title, content, activeCat, activeDoc string) string {
 			max-width: calc(100%% - 280px);
 			width: 100%%;
 		}
+		body.light .content { color: #24292f; }
 		pre { background: #161b22; padding: 16px; border-radius: 8px; overflow-x: auto; }
+		body.light pre { background: #f6f8fa; }
 		code { font-family: 'Fira Code', 'Monaco', 'Menlo', monospace; font-size: 14px; }
 		pre code { padding: 0; background: none; }
 		a { color: #58a6ff; text-decoration: none; }
 		a:hover { text-decoration: underline; }
 		h1, h2, h3, h4 { color: #f0f6fc; margin: 24px 0 16px; }
+		body.light h1, body.light h2, body.light h3, body.light h4 { color: #24292f; }
 		h1 { font-size: 2em; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
 		h2 { font-size: 1.5em; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+		body.light h1, body.light h2 { border-bottom-color: #d0d7de; }
 		blockquote { border-left: 4px solid #7d56f4; margin: 16px 0; padding: 0 16px; color: #8b949e; }
+		body.light blockquote { color: #57606a; }
 		ul, ol { padding-left: 24px; }
 		li { margin: 8px 0; }
 		table { border-collapse: collapse; width: 100%%; margin: 16px 0; }
 		th, td { border: 1px solid #30363d; padding: 10px 14px; text-align: left; }
+		body.light th, body.light td { border-color: #d0d7de; }
 		th { background: #161b22; }
+		body.light th { background: #f6f8fa; }
 		hr { border: none; border-top: 1px solid #30363d; margin: 32px 0; }
+		body.light hr { border-top-color: #d0d7de; }
 	</style>
 </head>
 <body>
 %s
+<button class="theme-toggle" onclick="toggleTheme()">Light</button>
 <div class="content">
 %s
 </div>
 <script>
+	// Theme toggle
+	function toggleTheme() {
+		document.body.classList.toggle('light');
+		var btn = document.querySelector('.theme-toggle');
+		if (document.body.classList.contains('light')) {
+			btn.textContent = 'Dark';
+		} else {
+			btn.textContent = 'Light';
+		}
+		localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+	}
+	// Load saved theme
+	if (localStorage.getItem('theme') === 'light') {
+		document.body.classList.add('light');
+		document.querySelector('.theme-toggle').textContent = 'Dark';
+	}
 	function toggleCat(el) { el.parentElement.classList.toggle('active'); }
 	let currentIdx = 0;
 	const links = document.querySelectorAll('.cat-items a');
