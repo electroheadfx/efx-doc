@@ -1,0 +1,6 @@
+workspaces:
+  - name: efx-motion
+    path: ~/Scripts/efx-motion/docs
+    styles:
+      tui: ~/.config/efx-doc/opencode_style.json
+      web: ~/.config/efx-doc/tokyo_night.json
